@@ -12,7 +12,7 @@ abstract class BaseViewModel<VIEW_STATE> :
 
     private val liveViewState = MutableLiveData<VIEW_STATE>()
 
-    private val compositeDisposable = CompositeDisposable()
+    protected val compositeDisposable = CompositeDisposable()
 
     private var currentState: VIEW_STATE? = null
 
