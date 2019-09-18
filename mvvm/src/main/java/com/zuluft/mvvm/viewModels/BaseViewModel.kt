@@ -27,7 +27,7 @@ abstract class BaseViewModel<VIEW_STATE> :
     }
 
     fun dispatchAction(viewStateAction: ViewStateAction<VIEW_STATE>) {
-        sendState(currentState ?: getInitialState())
+        sendState(viewStateAction.newState(currentState ?: getInitialState()))
     }
 
     private fun sendState(state: VIEW_STATE) {
