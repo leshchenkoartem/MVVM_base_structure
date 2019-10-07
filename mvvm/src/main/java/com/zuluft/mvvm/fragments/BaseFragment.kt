@@ -1,6 +1,7 @@
 package com.zuluft.mvvm.fragments
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -20,6 +21,8 @@ abstract class BaseFragment<VIEW_STATE, VIEW_MODEL : BaseViewModel<VIEW_STATE>> 
 
     private var compositeDisposable: CompositeDisposable? = null
 
+    private val dialogsList: ArrayList<Dialog> = ArrayList()
+
     private lateinit var viewModel: VIEW_MODEL
 
     override fun onCreateView(
@@ -30,6 +33,28 @@ abstract class BaseFragment<VIEW_STATE, VIEW_MODEL : BaseViewModel<VIEW_STATE>> 
         compositeDisposable = CompositeDisposable()
         return createView(inflater, container)
 
+    }
+
+    protected fun registerDialog(dialog: Dialog) {
+        dialogsList.add(dialog)
+    }
+
+    protected fun isDialogShowing(): Boolean {
+        for (dialog in dialogsList) {
+            if (dialog.isShowing) {
+                return true
+            }
+        }
+        return false
+    }
+
+    protected fun dismissAndClearDialogs() {
+        for (dialog in dialogsList) {
+            if (dialog.isShowing) {
+                dialog.dismiss()
+            }
+        }
+        dialogsList.clear()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -96,11 +121,12 @@ abstract class BaseFragment<VIEW_STATE, VIEW_MODEL : BaseViewModel<VIEW_STATE>> 
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
+        dismissAndClearDialogs()
         if (compositeDisposable != null) {
             compositeDisposable!!.dispose()
             compositeDisposable!!.clear()
         }
+        super.onDestroyView()
     }
 
 }
