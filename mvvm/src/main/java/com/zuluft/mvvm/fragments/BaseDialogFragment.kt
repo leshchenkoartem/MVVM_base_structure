@@ -1,6 +1,7 @@
 package com.zuluft.mvvm.fragments
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -21,6 +22,8 @@ abstract class BaseDialogFragment<VIEW_STATE, VIEW_MODEL : BaseViewModel<VIEW_ST
 
 
     private var compositeDisposable: CompositeDisposable? = null
+
+    private val dialogsList: ArrayList<Dialog> = ArrayList()
 
     private lateinit var viewModel: VIEW_MODEL
 
@@ -58,6 +61,28 @@ abstract class BaseDialogFragment<VIEW_STATE, VIEW_MODEL : BaseViewModel<VIEW_ST
             }
         }
         return rootView
+    }
+
+    protected fun registerDialog(dialog: Dialog) {
+        dialogsList.add(dialog)
+    }
+
+    protected fun isDialogShowing(): Boolean {
+        for (dialog in dialogsList) {
+            if (dialog.isShowing) {
+                return true
+            }
+        }
+        return false
+    }
+
+    protected fun dismissAndClearDialogs() {
+        for (dialog in dialogsList) {
+            if (dialog.isShowing) {
+                dialog.dismiss()
+            }
+        }
+        dialogsList.clear()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -127,11 +152,12 @@ abstract class BaseDialogFragment<VIEW_STATE, VIEW_MODEL : BaseViewModel<VIEW_ST
 
 
     override fun onDestroyView() {
-        super.onDestroyView()
+        dismissAndClearDialogs()
         if (compositeDisposable != null) {
             compositeDisposable!!.dispose()
             compositeDisposable!!.clear()
         }
+        super.onDestroyView()
     }
 
 }

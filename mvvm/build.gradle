@@ -58,6 +58,8 @@ dependencies {
 
     api "android.arch.paging:runtime:1.0.1"
     api "android.arch.paging:rxjava2:1.0.1"
+
+    api 'com.f2prateek.rx.preferences2:rx-preferences:2.0.0'
 }
 
 repositories {
