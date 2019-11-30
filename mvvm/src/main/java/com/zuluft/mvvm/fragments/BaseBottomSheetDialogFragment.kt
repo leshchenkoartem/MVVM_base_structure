@@ -27,6 +27,12 @@ abstract class BaseBottomSheetDialogFragment<VIEW_STATE, VIEW_MODEL : BaseViewMo
 
     private lateinit var viewModel: VIEW_MODEL
 
+    private var lastViewState: VIEW_STATE? = null
+
+    protected fun getLastViewState(): VIEW_STATE? {
+        return lastViewState
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -136,6 +142,7 @@ abstract class BaseBottomSheetDialogFragment<VIEW_STATE, VIEW_MODEL : BaseViewMo
             .observe(viewLifecycleOwner,
                 Observer {
                     reflectState(it)
+                    lastViewState = it
                 })
     }
 

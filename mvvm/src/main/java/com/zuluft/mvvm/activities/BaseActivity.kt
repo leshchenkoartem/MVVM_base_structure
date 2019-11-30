@@ -16,6 +16,12 @@ abstract class BaseActivity<VIEW_STATE, VIEW_MODEL : BaseViewModel<VIEW_STATE>> 
 
     private var compositeDisposable: CompositeDisposable? = null
 
+    private var lastViewState: VIEW_STATE? = null
+
+    protected fun getLastViewState(): VIEW_STATE? {
+        return lastViewState
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         compositeDisposable = CompositeDisposable()
@@ -29,6 +35,7 @@ abstract class BaseActivity<VIEW_STATE, VIEW_MODEL : BaseViewModel<VIEW_STATE>> 
             .observe(this,
                 Observer {
                     reflectState(it)
+                    lastViewState = it
                 })
     }
 

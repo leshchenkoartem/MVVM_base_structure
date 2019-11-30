@@ -25,6 +25,12 @@ abstract class BaseFragment<VIEW_STATE, VIEW_MODEL : BaseViewModel<VIEW_STATE>> 
 
     private lateinit var viewModel: VIEW_MODEL
 
+    private var lastViewState: VIEW_STATE? = null
+
+    protected fun getLastViewState(): VIEW_STATE? {
+        return lastViewState
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -108,6 +114,7 @@ abstract class BaseFragment<VIEW_STATE, VIEW_MODEL : BaseViewModel<VIEW_STATE>> 
             .observe(viewLifecycleOwner,
                 Observer {
                     reflectState(it)
+                    lastViewState = it
                 })
     }
 
