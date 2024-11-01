@@ -57,7 +57,7 @@ constructor(private val sharedPreferences: SharedPreferences) : Preferences {
     }
 
     override fun get(key: String, defaultValue: String): String {
-        return sharedPreferences.getString(key, defaultValue)
+        return sharedPreferences.getString(key, defaultValue).toString()
     }
 
     override fun get(key: String, defaultValue: Boolean): Boolean {
