@@ -2,16 +2,18 @@ apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
 
-apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 29
+    namespace 'com.zuluft.sample'
+
+    compileSdkVersion 34
     defaultConfig {
         applicationId "com.zuluft.sample"
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 34
         versionCode 1
         versionName "1.0"
     }
@@ -20,6 +22,21 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
     }
 }
 
